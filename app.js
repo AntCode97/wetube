@@ -8,7 +8,13 @@ import globalRouter from "./routers/globalRouter"
 import videoRouter from "./routers/videoRouter"
 import userRouter from "./routers/userRouter"
 import routes from "./routes";
+import { localsMiddleware } from "./middlewares";
 const app = express();
+
+app.set("view engine", "pug"); 
+
+//node.js의 보안성을 높혀주는 미들웨어
+app.use(helmet());
 
 //쿠기 정보들을 이해하기 위해 사용
 app.use(cookieParser());
@@ -18,9 +24,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 //logging하는 걸 도와주는 미들웨어 콘솔에 여러가지 로그를 띄워줌
 app.use(morgan("dev"));
-//node.js의 보안성을 높혀주는 미들웨어
-app.use(helmet());
-
+//변수를 html에서 사용하게 해줌
+app.use(localsMiddleware);
 
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
