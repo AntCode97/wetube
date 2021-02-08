@@ -6,16 +6,17 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser"
 import globalRouter from "./routers/globalRouter"
 import videoRouter from "./routers/videoRouter"
-import userRouter from "./routers/userRouter" 
+import userRouter from "./routers/userRouter"
 import routes from "./routes";
 import { localsMiddleware } from "./middlewares";
 const app = express();
 
 //node.js의 보안성을 높혀주는 미들웨어, contentSecuiryPolicy를 적어줘야 영상이 재생 잘됨
-app.use(helmet({contentSecurityPolicy: false,}));
-app.set("view engine", "pug");  
+app.use(helmet({ contentSecurityPolicy: false, }));
+app.set("view engine", "pug");
 //directory에서 file을 보내주는 middleware
 app.use("/uploads", express.static("uploads"))
+app.use("/static", express.static("static"));
 
 //쿠기 정보들을 이해하기 위해 사용
 app.use(cookieParser());
