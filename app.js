@@ -9,6 +9,7 @@ import videoRouter from "./routers/videoRouter"
 import userRouter from "./routers/userRouter"
 import routes from "./routes";
 import { localsMiddleware } from "./middlewares";
+
 const app = express();
 
 //node.js의 보안성을 높혀주는 미들웨어, contentSecuiryPolicy를 적어줘야 영상이 재생 잘됨

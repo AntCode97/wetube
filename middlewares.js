@@ -1,8 +1,9 @@
-import routes from "./routes";
 import multer from "multer";
+import routes from "./routes";
+
 
 // /uploads/vidoes/이런식으로 쓰지 않는 것이 중요하다 저렇게 쓰면 root경로에 폴더를 생성해버림
-const multerVideo = multer({dest: "uploads/videos/"});
+const multerVideo = multer({ dest: "uploads/videos/" });
 
 //html에서 변수를 사용할 수 있게 해줌
 export const localsMiddleware = (req, res, next) => {
