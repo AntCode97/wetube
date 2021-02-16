@@ -1,18 +1,34 @@
 import express from "express";
-import { join, logout} from "../controllers/globalController";
-import { getJoin, postJoin, getLogin, postLogin } from "../controllers/userController";
-import {search, home} from "../controllers/videoController"
+import passport from "passport";
+import { getJoin, postJoin, getLogin, postLogin, githubLogin, postGithubLogIn, logout, getMe, kakaoLogin, postKakaoLogin } from "../controllers/userController";
+import { search, home } from "../controllers/videoController"
 import routes from "../routes";
+import { onlyPrivate, onlyPublic } from "../middlewares"
 
 const globalRouter = express.Router();
 
+globalRouter.get(routes.join, onlyPublic, getJoin);
+globalRouter.post(routes.join, onlyPublic, postJoin, postLogin);
+
+globalRouter.get(routes.login, onlyPublic, getLogin);
+globalRouter.post(routes.login, onlyPublic, postLogin);
+
 globalRouter.get(routes.home, home);
-globalRouter.get(routes.join, getJoin);
-globalRouter.post(routes.join, postJoin);
-globalRouter.get(routes.login, getLogin)
-globalRouter.post(routes.login, postLogin)
-globalRouter.get(routes.logout, logout);
+
 globalRouter.get(routes.search, search);
+globalRouter.get(routes.logout, onlyPrivate, logout);
 
+globalRouter.get(routes.github, githubLogin)
+globalRouter.get(routes.githubcallback,
+    passport.authenticate("github", { failureRedirect: "/login" }),
+    postGithubLogIn)
 
+globalRouter.get(routes.kakao, kakaoLogin);
+globalRouter.get(
+    routes.kakaoCallback,
+    passport.authenticate("kakao", { failureRedirect: "/login" }),
+    postKakaoLogin
+)
+
+globalRouter.get(routes.me, getMe)
 export default globalRouter;
